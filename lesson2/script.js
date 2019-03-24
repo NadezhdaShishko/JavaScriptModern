@@ -16,6 +16,10 @@ class ItemsList {
         ];
     }
 
+    total() {
+        return this.items.reduce((acc, item) => acc + item.price, 0);
+    }
+
     render() {
         const itemsHtml = this.items.map(item => (new Item(item.image, item.name, item.price)).render());
 
@@ -45,31 +49,6 @@ class Item {
 
 const items = new ItemsList();
 items.getItems();
+alert(items.total());
 
 document.querySelector('.goodsList').innerHTML = items.render();
-
-class CartList {
-    constructor() {
-        this.cart = [];
-    }
-
-    getCart() {
-        this.cart = [
-            { name: 'Shirt', price: 150, quantity: 1 },
-            { name: 'Socks', price: 50, quantity: 1 },
-            { name: 'Jacket', price: 350, quantity: 2 },
-        ]
-    }
-}
-
-class Total {
-    constructor(price, quantity) {
-        this.price = price;
-        this.quantity = quantity;
-
-    }
-    getTotal () {
-        this.total += cart.price + cart.quantity;
-    }
-
-}
