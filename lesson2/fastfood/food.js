@@ -1,11 +1,3 @@
-const SIZE_SMALL;
-const SIZE_LARGE;
-const STUFFING_CHEESE;
-const STUFFING_SALAD;
-const STUFFING_POTATO;
-const TOPPING_SPICE;
-const TOPPING_MAYON;
-
 class Hamburger {
     constructor(size, stuffing) {
         this._size = size;
@@ -13,11 +5,11 @@ class Hamburger {
         this._toppings = [];
 
         switch (size) {
-            case SIZE_SMALL:
+            case Hamburger.SIZE_SMALL:
                 this._price = 50;
                 this._calories = 20;
                 break;
-            case SIZE_LARGE:
+            case Hamburger.SIZE_LARGE:
                 this._price = 100;
                 this._calories = 40;
                 break;
@@ -26,15 +18,15 @@ class Hamburger {
         }
 
         switch (stuffing) {
-            case STUFFING_CHEESE:
+            case Hamburger.STUFFING_CHEESE:
                 this._price += 10;
                 this._calories += 20;
                 break;
-            case STUFFING_SALAD:
+            case Hamburger.STUFFING_SALAD:
                 this._price += 20;
                 this._calories += 5;
                 break;
-            case STUFFING_POTATO:
+            case Hamburger.STUFFING_POTATO:
                 this._price += 15;
                 this._calories += 10;
                 break;
@@ -44,17 +36,25 @@ class Hamburger {
     }
 }
 
+Hamburger.SIZE_SMALL = 1;
+Hamburger.SIZE_LARGE = 2;
+Hamburger.STUFFING_CHEESE = 1;
+Hamburger.STUFFING_SALAD = 2;
+Hamburger.STUFFING_POTATO = 3;
+Hamburger.TOPPING_SPICE = 1;
+Hamburger.TOPPING_MAYON = 2;
+
 Hamburger.prototype.addTopping = function (topping) {
     switch (topping) {
-        case TOPPING_SPICE:
-        if (this._toppings.indexOf(TOPPING_SPICE) == -1) {
-            this._toppings.push(TOPPING_SPICE);
+        case Hamburger.TOPPING_SPICE:
+        if (this._toppings.indexOf(Hamburger.TOPPING_SPICE) == -1) {
+            this._toppings.push(Hamburger.TOPPING_SPICE);
             this._price += 15;
         }
         break;
-        case TOPPING_MAYON:
-        if (this._toppings.indexOf(TOPPING_MAYON) == -1) {
-            this._toppings.push(TOPPING_MAYON);
+        case Hamburger.TOPPING_MAYON:
+        if (this._toppings.indexOf(Hamburger.TOPPING_MAYON) == -1) {
+            this._toppings.push(Hamburger.TOPPING_MAYON);
             this._price += 20;
             this._calories += 5;
         }
@@ -66,15 +66,15 @@ Hamburger.prototype.addTopping = function (topping) {
 
 Hamburger.prototype.removeTopping = function (topping) {
     switch (topping) {
-        case TOPPING_SPICE:
-        if (this._toppings.indexOf(TOPPING_SPICE) >= 0) {
-            this._toppings.splice(this.toppings.indexOf(TOPPING_SPICE));
+        case Hamburger.TOPPING_SPICE:
+        if (this._toppings.indexOf(Hamburger.TOPPING_SPICE) >= 0) {
+            this._toppings.splice(this.toppings.indexOf(Hamburger.TOPPING_SPICE));
             this._price -= 15;
         }
         break;
-        case TOPPING_MAYON:
-        if (this._toppings.indexOf(TOPPING_MAYON) == -1) {
-            this._toppings.splice(this.toppings.indexOf(TOPPING_MAYON));
+        case Hamburger.TOPPING_MAYON:
+        if (this._toppings.indexOf(Hamburger.TOPPING_MAYON) == -1) {
+            this._toppings.splice(this.toppings.indexOf(Hamburger.TOPPING_MAYON));
             this._price -= 20;
             this._calories -= 5;
         }
@@ -106,18 +106,49 @@ Hamburger.prototype.calculateCalories = function() {
 
 Hamburger.prototype.toString = function () {
     var res = 'Гамбургер:\nРазмер: ';
-    res += (this._size == SIZE_SMALL) ? 'Маленький\n' : 'Большой\n';
+    res += (this._size == Hamburger.SIZE_SMALL) ? 'Маленький\n' : 'Большой\n';
     res += 'Начинка: ';
-    res += (this._stuffing == STUFFING_CHEESE) ? 'Сыр\n'
-    : (this._stuffing == STUFFING_SALAD) ? 'Салат' : 'Картофель';
-    res += 'Добавки:';
+    res += (this._stuffing == Hamburger.STUFFING_CHEESE) ? 'Сыр\n'
+    : (this._stuffing == Hamburger.STUFFING_SALAD) ? 'Салат\n' : 'Картофель\n';
+    res += 'Добавки: ';
     res += (this._toppings.length > 0) ?
         this._toppings.map(function(topp) {
-            return topp = TOPPING_MAYON ? 'Майонез' : 'Приправа';
+            return topp == Hamburger.TOPPING_SPICE ? 'Приправа' : 'Майонез';
         }).join(', ') + '\n'
         : 'нет\n';
-    res += 'Сумма: ' + this._price + 'рублей\n';
-    res += 'Калорий: ' + this._calories + 'калорий';
+    res += 'Стоимость: ' + this._price + ' рублей\n';
+    res += 'Калорий: ' + this._calories + ' калорий';
 
     return res;
+}
+
+class HamburgerException {
+    constructor(message) {
+        this.name = 'HamburgerException';
+        this.message = message;
+    }
+}
+
+window.onload = function() {
+    document.forms[0].onsubmit = function() {
+        try {
+            var burger = new Hamburger(+this.size.value, +this.stuffing.value);
+
+            if (this.topping_mayon.checked) {
+                burger.addTopping(Hamburger.TOPPING_MAYON);
+            }
+
+            if (this.topping_spice.checked) {
+                burger.addTopping(Hamburger.TOPPING_SPICE);
+            }
+
+            document.getElementById('result').innerHTML = 'Ваш гамбургер: Стоимость: <span>' + burger.calculatePrice() + ' рублей</span>, Калорий: <span>' + burger.calculateCalories() + ' калорий</span>';
+
+            document.getElementById('pre').innerHTML = 'Приятного аппетита!\n-------------------\n' + burger + '\n-------------------\n';
+        }
+        catch (e) {
+            console.error(e.message);
+        }
+        return false;
+    };
 }
