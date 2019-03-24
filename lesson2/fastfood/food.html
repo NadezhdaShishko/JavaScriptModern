@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Hamburger</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="container">
+        <h1>Закажи гамбургер</h1>
+        <p>Собери свой гамбургер</p>
+        <form action="#" method="GET">
+            <p>
+                <label for="size">Размер: </label>
+                <select name="size" id="size">
+                    <option value="1"> Маленький - 50 рублей, 20 калорий </option>
+                    <option value="2"> Большой - 100 рублей, 40 калорий </option>
+                </select>
+            </p>
+            <p>
+                <label>Начинка: <input type="radio" name="stuffing" value="1" checked> Сыр <span>(10 рублей, 20 калорий)</span></label>
+                <label><input type="radio" name="stuffing" value="2" > Салат <span>(20 рублей, 5 калорий)</span></label>
+                <label><input type="radio" name="stuffing" value="3" > Картофель <span>(15 рублей, 10 калорий)</span></label>
+            </p>
+            <p>
+                <label>Добавки: <input type="checkbox" name="topping_spice" value="1"> Приправа <span>(15 рублей, 0 калорий)</span></label>
+                <label><input type="checkbox" name="topping_mayon" value="2"> Майонез <span>(20 рублей, 5 калорий)</span></label>
+            </p>
+            <p><input type="submit" value="Рассчитать"></p>
+            <p id="result"></p>
+            <pre id="pre"></pre>
+        </form>
+    </div>
     <script src="food.js"></script>
 </body>
 </html>
