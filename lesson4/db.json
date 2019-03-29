@@ -1,0 +1,36 @@
+{
+    "goods": [
+        { 
+            "id": 1,
+            "name": "Shirt", 
+            "image": "images/product1.jpg", 
+            "price": 150, 
+            "quantity": 1, 
+            "subtotal": 150
+        },
+        { 
+            "id": 2,
+            "name": "Socks", 
+            "image": "images/product2.jpg", 
+            "price": 50, 
+            "quantity": 2, 
+            "subtotal": 100 
+        },
+        { 
+            "id": 3,
+            "name": "Jacket", 
+            "image": "images/product3.jpg", 
+            "price": 350, 
+            "quantity": 2, 
+            "subtotal": 700
+        },
+        { 
+            "id": 4,
+            "name": "Shoes", 
+            "image": "images/product4.jpg", 
+            "price": 250, 
+            "quantity": 1, 
+            "subtotal": 500
+        }
+    ]
+}
