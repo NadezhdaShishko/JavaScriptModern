@@ -42,7 +42,7 @@ class Item {
         return `<div class="goodsItem">
                     <div class="productUnitImgWrap">
                         <div class="productUnitBuy">
-                            <button id="goodBtn"><img src="images/addToCart.png" alt="">Add to Cart</button>
+                            <button id="addCartBtn"><img src="images/addToCart.png" alt="">Add to Cart</button>
                         </div>
                         <img src="${this.image}" alt=""/>
                     </div>
@@ -66,8 +66,18 @@ $search.addEventListener('click', () => {
 });
 
 const $cartList = document.querySelector('#cartList');
+const $cartButton = document.querySelector('#cartButton');
+$cartList.addEventListener('click', (event) => {
+    const id = event.target.dataset.id;
 
-fetch('http://localhost:3000/goods')
+    fetch('http://localhost:3000/cart/${id}', {
+        method: 'DELETE',
+    }).then(() => {
+        event.target.parentElement.removeChild(event.target);
+    });
+});
+
+fetch('http://localhost:3000/cart')
 .then((response) => response.json())
 .then((goods) => {
     $cartList.innerHTML = goods.map((item) => 
@@ -79,19 +89,40 @@ fetch('http://localhost:3000/goods')
     </li>`).join('');
 });
 
-// $goodsList = document.querySelector('#goodsList');
-// $goodsList.addEventListener('click', (event) => {
-//     if (event.target.tagName === 'goodBtn') {}
-// })
-// const $cartButton = document.querySelector('#cartButton');
-// $cartButton.addEventListener('click', () => {
-//     sendRequest('http://localhost:3000/goods').then(products => {
-//         document.querySelector('#cartList').innerHTML = products.map(item => 
-//             `<li><img src="${item.image}" alt=""/>
-//                 <h3>${item.name}</h3>
-//                 <span>$${item.price}</span>
-//                 <span>${item.quantity}</span>
-//                 <span>$${item.subtotal}</span>
-//             </li>`).join('');
-//     });
-// });
+/*
+$goodsList = document.querySelector('#goodsList');
+$goodsList.addEventListener('click', (event) => {
+    if (event.target.tagName === 'addCartBtn') {
+        const $product = event.target.parentElement;
+
+        fetch('http://localhost:3000/cart', {
+            method: 'POST',
+
+        })
+        .then((response) = response.json())
+        .then((items) => {
+            $cartList.innerHTML = products.map((item) => 
+                `<li data-id="${item.id}">
+                    <img src="${item.image}" alt=""/>
+                    <h3>${item.name}</h3>
+                    <span>$${item.price}</span>
+                    <span>${item.quantity}</span>
+                    <span>$${item.subtotal}</span>
+                </li>`).join('');
+        })
+    }
+});
+*/
+$cartButton.addEventListener('click', () => {
+    fetch('http://localhost:3000/cart')
+    .then((response) => response.json())
+    .then((goods) => {
+        $cartList.innerHTML = goods.map((item) => 
+        `<li><img src="${item.image}" alt=""/>
+            <h3>${item.name}</h3>
+            <span>$${item.price}</span>
+            <span>${item.quantity}</span>
+            <span>$${item.subtotal}</span>
+        </li>`).join('');
+    });
+});
