@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>RegExp</title>
+    <style>
+        .form-field {
+            clear: both;
+            display: block;
+            max-width: 220px;
+            padding-bottom: 10px;
+        }
+
+        .form-field input {
+            float: right;
+        }
+
+        .form-field input.invalid {
+            border: 1px solid red;
+        }
+
+        .form-field textarea {
+            clear: both;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <form method="GET" name="myForm">
+        <label class="form-field" for="name">Name: <input type="text" id="name" name="name"/></label>
+        <label class="form-field" for="phone">Phone: <input type="text" data-validation-rule="phone" id="phone" name="phone"/></label>
+        <label class="form-field" for="email">E-mail: <input type="text" data-validation-rule="email" id="email" name="email"/></label>
+        <label class="form-field" for="text">Message: <textarea rows="10" cols="80" id="message" name="message"></textarea></label>
+
+        <input type="submit" id="submit" value="Отправить">
+    </form>
+    <script>
+        const exampleText = "Приплыла к нему рыбка, aren't спросила: 'Чего тебе надобно, старче?'";
+        const regexp = /('\B|\B')/g;
+        console.log(exampleText.replace(regexp, '"'));
+
+        var validation = {
+            phone: /^\+7\(\d{3}\)\d{3}\-\d{4}$/,
+            email: /^[-_.a-zA-Z0-9]+@([a-z0-9][-a-z0-9]+\.)+[a-z]{2,6}$/i
+        };
+
+        window.onload = function() {
+            document.getElementById('submit').addEventListener('click', function(event) {
+                Object.keys(validation).forEach(function(rule) {
+                    var fields = document.querySelectorAll('[data-validation-rule="' + rule + '"]');
+                    fields.forEach(function(field) {
+                        if (validation[rule].test(field.value)) {
+                            field.classList.remove('invalid');
+                        } else {
+                            field.classList.add('invalid');
+                        }
+                    });
+                })
+                event.preventDefault();
+            });
+        }
+    </script>
+</body>
+</html>
