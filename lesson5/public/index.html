@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <title>eShop</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+          crossorigin="anonymous">
+</head>
+
+<body>
+  <iv id="app" :style="{ display: display }">
+    <header>
+      <button id="cartButton" class="cartButton" type="button">Корзина</button>
+      <h3 class="total">В корзине товара на сумму:<span> {{ total }} $</span>.</h3>
+      <ul id="cartList">
+        <div v-for="product in cart">
+            <li>
+              <img :src="product.image" alt="img"/>
+              <h3>{{ product.name }}</h3>
+              <span>${{ product.price }}</span>
+              <span>{{ product.quantity }}</span>
+              <span>${{ product.subtotal }}</span>
+              <button class="action" @click="delFromCart -= 1"><i class="fas fa-times-circle"></i></button>
+            </li>
+        </div>
+      </ul>
+    </header>
+    <main>
+      <input type="text" v-model="searchQuery" class="searchQuery" placeholder="Поиск по названию товара" />
+      <div class="goodsList" v-if="filteredItems.length">
+          <div class="goodsItem" v-for="item in filteredItems">
+              <div class="productUnitImgWrap">
+                  <div class="productUnitBuy">
+                      <button id="addCartBtn" @click="putInCart += 1"><img src="images/addToCart.png" alt="">Add to Cart</button>
+                  </div>
+                  <img :src="item.image" alt="img"/>
+              </div>
+              <h3>{{ item.name }}</h3><span>${{ item.price }}</span>
+          </div>
+      </div>
+      <div v-if="!filteredItems.length" class="empty">Ничего не найдено</div>
+    </main>
+  </iv>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
