@@ -1,0 +1,174 @@
+body {
+    width: 1140px;
+    margin: 0 auto;
+}
+
+header {
+    width: 100%;
+    border: 1px solid rgb(236, 131, 92);
+}
+
+.cartButton,
+.action {
+    margin: 10px;
+    width: 120px;
+    height: 35px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    background-color: rgb(236, 131, 92);
+    border: 2px solid rgb(223, 68, 11);
+    border-radius: 20px;
+}
+  
+.cartButton:hover,
+.action:hover {
+    color: rgb(223, 68, 11);
+    box-shadow:0 0 0 2px rgb(223, 68, 11) inset, 0 0 0 4px white inset;
+}
+  
+.cartButton:focus,
+.action:focus {
+    outline: none;
+}
+
+.cartButton:active
+.action:active {
+    color: rgb(223, 68, 11);
+    background-color: white;
+}
+
+.goodsList {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.goodsItem {
+    overflow: hidden;
+    margin: 20px 10px;
+}
+
+h3 {
+    margin: 15px;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #222222;
+    font-weight: 700;
+    max-height: 2.4em;
+    overflow: hidden;
+}
+
+.goodsItem span {
+    margin: 15px;
+    color: rgb(223, 68, 11);
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.goodsItem:hover {
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.16);
+}
+
+
+.goodsItem:hover .productUnitBuy {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.productUnitImgWrap {
+    height: 280px;
+    position: relative;
+}
+  
+.productUnitImgWrap .productUnitBuy {
+    height: inherit;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    position: absolute;
+}
+  
+.productUnitImgWrap .productUnitBuy button {
+    padding: 15px;
+    border: 1px solid #fff;
+    background: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+  
+.productUnitImgWrap .productUnitBuy button img {
+    margin-right: 10px;
+}
+  
+.productUnitImgWrap .productUnitBuy button img > img {
+    width: 100%;
+    display: block;
+    height: inherit;
+    object-fit: cover;
+    object-position: center center;
+}
+
+#cartList {
+    width: 900px;
+}
+
+#cartList li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-bottom: 1px solid rgb(223, 68, 11);
+    align-items: center;
+}
+
+#cartList li img {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+}
+
+#cartList li span {
+    margin: 15px;
+    font-size: 16px;
+}
+
+.searchQuery {
+    margin: 10px;
+    width: 180px;
+    height: 25px;
+    font-size: 14px;
+    color: green;
+    border: 1px solid rgb(223, 68, 11);
+    padding-left: 10px;
+}
+
+.searchQuery:focus {
+outline: 2px solid rgb(223, 68, 11);
+}
+
+.empty {
+    margin-left: 20px;
+    font-size: 18px;
+}
+
+.action {
+    width: 36px;
+    line-height: calc(36px / 2);
+}
+
+#add {
+    display: none;
+}
+
+.total span {
+    font-size: 18px;
+    color:  rgb(223, 68, 11);
+    margin-left: 5px;
+}
