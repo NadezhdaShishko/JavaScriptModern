@@ -13,18 +13,17 @@
   <iv id="app" :style="{ display: display }">
     <header>
       <button id="cartButton" class="cartButton" type="button">Корзина</button>
-      <h3 class="total">В корзине товара на сумму:<span> {{ total }} $</span>.</h3>
-      <ul id="cartList">
-        <div v-for="product in cart">
-            <li>
-              <img :src="product.image" alt="img"/>
-              <h3>{{ product.name }}</h3>
-              <span>${{ product.price }}</span>
-              <span>{{ product.quantity }}</span>
-              <span>${{ product.subtotal }}</span>
-              <button class="action" @click="delFromCart -= 1"><i class="fas fa-times-circle"></i></button>
-            </li>
-        </div>
+      <h3 class="total" v-if="cart.length">В корзине товара на сумму:<span> {{ total }} $</span>.</h3>
+      <h3 class="total" v-if="!cart.length">Корзина пуста.</h3>
+      <ul id="cartList" v-if="cart.length">
+        <li v-for="item in cart">
+          <img :src="item.image" alt="img"/>
+          <h3>{{ item.name }}</h3>
+          <span>${{ item.price }}</span>
+          <span>{{ item.quantity }}</span>
+          <span>${{ item.subtotal }}</span>
+          <button class="action"><i class="fas fa-times-circle"></i></button>
+        </li>
       </ul>
     </header>
     <main>
@@ -33,7 +32,7 @@
           <div class="goodsItem" v-for="item in filteredItems">
               <div class="productUnitImgWrap">
                   <div class="productUnitBuy">
-                      <button id="addCartBtn" @click="putInCart += 1"><img src="images/addToCart.png" alt="">Add to Cart</button>
+                      <button id="addCartBtn" @click="handleBuyClick(item)"><img src="images/addToCart.png" alt="">Add to Cart</button>
                   </div>
                   <img :src="item.image" alt="img"/>
               </div>
