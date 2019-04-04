@@ -1,50 +1,45 @@
+const API_URL = 'http://localhost:3000';
+
 const app = new Vue({
     el: '#app',
     data: {
         items: [],
         cart: [],
         searchQuery: '',
-        display: 'none',
-        quantity: 0,
-        putInCart: 0
+        display: 'none'
     },
     methods: {
-        putInCart: function(event) {
-            if (event.target.tagName === 'BUTTON') {
-                fetch('http://localhost:3000/cart', {
-                    method: 'POST',
-                    body: JSON.stringify(item),
-                }).then((cart) => {
-                    this.cart.push({item
-                    // image = this.image,
-                    // name = this.name,
-                    // price = this.price
-                    });
+        handleBuyClick(item) {
+            const cartItem = this.cart.find(cartItem => cartItem.id === item.id);
+            if(cartItem) {
+                fetch(`${API_URL}/cart/${item.id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({quantity: cartItem.quantity + 1})
+                }).then((response) => response.json())
+                  .then((updated) => {
+                    const itemIdx = this.cart.findIndex(cartItem => cartItem.id === item.id);
+                    Vue.set(this.cart, itemIdx, updated);
                 });
-            } 
-        },
-        delFromCart: function(event) {
-            // const id = event.target.dataset.id;
-            fetch('http://localhost:3000/cart/${id}', {
-                method: 'DELETE',
-            }).then(() => {
-                event.target.parentElement.removeChild(event.target);
-            });   
+            } else {
+                fetch(`${API_URL}/cart`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({...item, quantity: 1}),
+                }).then((response) => response.json())
+                    .then((created) => {
+                    this.cart.push(created);
+                });
+            }
         }
     },
     mounted() {
-        fetch('http://localhost:3000/goods')
+        fetch(`${API_URL}/goods`)
         .then((response) => response.json())
         .then((items) => {
             this.items = items;
             this.filteredItems = items;
             this.display = 'block';
-        });
-
-        fetch('http://localhost:3000/cart')
-        .then((response) => response.json())
-        .then((cart) => {
-            this.cart = cart;
         });
     },
     computed: {
@@ -53,7 +48,7 @@ const app = new Vue({
             return this.items.filter((item) => regexp.test(item.name))
         },
         total() {
-            return this.cart.reduce((acc, product) => acc + product.subtotal, 0);
+            return this.cart.reduce((acc, item) => acc + item.quantity * item.price, 0);
         }
     }
 });
