@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <title>eShop</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+          crossorigin="anonymous">
+</head>
+
+<body>
+  <div id="app" :style="{ display: display }">
+    <header>
+      <button id="cartButton" class="cartButton" type="button">Корзина</button>
+      <h3 class="total" v-if="cart.length">В корзине товара на сумму:<span> {{ total }} $</span>.</h3>
+      <h3 class="total" v-if="!cart.length">Корзина пуста.</h3>
+      <ul id="cartList" v-if="cart.length">
+        <li v-for="item in cart">
+          <img :src="item.image" alt="img"/>
+          <h3>{{ item.name }}</h3>
+          <span>${{ item.price }}</span>
+          <span>{{ item.quantity }}</span>
+          <span>${{ item.subtotal }}</span>
+          <button class="action"><i class="fas fa-times-circle"></i></button>
+        </li>
+      </ul>
+    </header>
+    <main>
+      <search></search>
+      <!-- <input type="text" v-model="searchQuery" class="searchQuery" placeholder="Поиск по названию товара" /> -->
+      <div class="goodsList">
+          <products @onbuy="handleBuyClick" :items="filteredItems"></products>
+      </div>
+      <div v-if="!filteredItems.length" class="empty">Ничего не найдено</div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
