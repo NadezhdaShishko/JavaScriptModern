@@ -10,29 +10,16 @@
 </head>
 
 <body>
-  <div id="app" :style="{ display: display }">
+  <div id="app">
     <header>
       <button id="cartButton" class="cartButton" type="button">Корзина</button>
-      <h3 class="total" v-if="cart.length">В корзине товара на сумму:<span> {{ total }} $</span>.</h3>
-      <h3 class="total" v-if="!cart.length">Корзина пуста.</h3>
-      <ul id="cartList" v-if="cart.length">
-        <li v-for="item in cart">
-          <img :src="item.image" alt="img"/>
-          <h3>{{ item.name }}</h3>
-          <span>${{ item.price }}</span>
-          <span>{{ item.quantity }}</span>
-          <span>${{ item.subtotal }}</span>
-          <button class="action"><i class="fas fa-times-circle"></i></button>
-        </li>
-      </ul>
+      <cart :cart="cart" @ondelete="handleDeleteClick"></cart>
     </header>
     <main>
-      <search></search>
-      <!-- <input type="text" v-model="searchQuery" class="searchQuery" placeholder="Поиск по названию товара" /> -->
+      <search @onsearch="handleSearch"></search>
       <div class="goodsList">
-          <products @onbuy="handleBuyClick" :items="filteredItems"></products>
+          <products @onbuy="handleBuyClick" :query="searchQuery"></products>
       </div>
-      <div v-if="!filteredItems.length" class="empty">Ничего не найдено</div>
     </main>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
