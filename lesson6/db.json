@@ -1,5 +1,27 @@
 {
-  "cart": [],
+  "cart": [
+    {
+      "id": "1",
+      "name": "Shirt",
+      "image": "images/product1.jpg",
+      "price": 150,
+      "quantity": 1
+    },
+    {
+      "id": "2",
+      "name": "Socks",
+      "image": "images/product2.jpg",
+      "price": 50,
+      "quantity": 2
+    },
+    {
+      "id": "3",
+      "name": "Jacket",
+      "image": "images/product3.jpg",
+      "price": 350,
+      "quantity": 3
+    }
+  ],
   "goods": [
     {
       "id": "1",
