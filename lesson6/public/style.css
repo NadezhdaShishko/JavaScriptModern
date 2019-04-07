@@ -9,7 +9,8 @@ header {
 }
 
 .cartButton,
-.action {
+.action,
+#search {
     margin: 10px;
     width: 120px;
     height: 35px;
@@ -22,18 +23,21 @@ header {
 }
   
 .cartButton:hover,
-.action:hover {
+.action:hover,
+#search:hover {
     color: rgb(223, 68, 11);
     box-shadow:0 0 0 2px rgb(223, 68, 11) inset, 0 0 0 4px white inset;
 }
   
 .cartButton:focus,
-.action:focus {
+.action:focus,
+#search:focus {
     outline: none;
 }
 
 .cartButton:active
-.action:active {
+.action:active,
+#search:active {
     color: rgb(223, 68, 11);
     background-color: white;
 }
@@ -161,10 +165,6 @@ outline: 2px solid rgb(223, 68, 11);
 .action {
     width: 36px;
     line-height: calc(36px / 2);
-}
-
-#app {
-    display: none;
 }
 
 .total span {
