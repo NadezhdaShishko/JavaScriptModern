@@ -88,7 +88,7 @@ Vue.component('cart', {
                 <h3>{{ item.name }}</h3>
                 <span>&#36{{ item.price }}</span>
                 <span>{{ item.quantity }}</span>
-                <span>&#36{{ item.subtotal }}</span>
+                <span>&#36{{ item.subtotal = item.price * item.quantity }}</span>
                 <button class="action" @click="handleDeleteClick(item)"><i class="fas fa-times-circle"></i></button>
                 </li>
             </ul>
@@ -135,8 +135,10 @@ const app = new Vue({
             } else {
                 fetch(`${API_URL}/cart/${item.id}`, {
                     method: 'DELETE',
-                }).then(()=> {
+                }).then((response) => response.json())
+                  .then((result)=> {
                     this.cart = this.cart.filter((cartItem) => cartItem.id !== item.id);
+                    this.total = result.total;
                 });
             }
         },
