@@ -125,7 +125,7 @@ app.delete('/cart/:id', (req, res) => {
         });
     });
 });
-/*
+
 app.post('/auth', (req, res) => {
     fs.readFile('./db/auth.json', 'utf-8', (err, data) => {
         if(err) {
@@ -143,13 +143,13 @@ app.post('/auth', (req, res) => {
         })
         fs.writeFile('./db/auth.json', JSON.stringify(auth), () => {
             res.send({
-                user: req.body,
+                user: auth,
 
             });
         });    
     });
 });
-*/
+
 app.listen(3000, () => {
     console.log('Server has been started');
 })
