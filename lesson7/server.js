@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const moment = require('moment');
 
 const app = express();
 
@@ -16,6 +17,36 @@ app.get('/goods', (req, res) => {
 
         res.send(data);
     });
+});
+
+app.use('/cart', (req, res, next) => {
+    if(['POST', 'PATCH', 'DELETE'].includes(req.method)) {
+        const mapping = {
+            'PATCH': 'Редактирование товара',
+            'DELETE': 'Удаление товара',
+        };
+        fs.readFile('./db/stats.json', 'utf-8', (err, data) => {
+            const stats = JSON.parse(data);
+            switch(req.method) {
+                case 'POST':
+                    stats.push({ action: 'Добавление товара', name: req.body.name, timestamp: moment().format('LLLL') });
+                    fs.writeFile('./db/stats.json', JSON.stringify(stats));
+                    break;
+                case 'PATCH':
+                case 'DELETE':
+                    const [,, id] = req.url.split('/');
+                    fs.readFile('./db/goods.json', 'utf-8', (err, data) => {
+                        const products = JSON.parse(data);
+                        const product = products.find((item) => +item.id === +id);
+
+                        stats.push({ action: mapping[req.method], name: product.name, timestamp: moment().format('LLLL') });
+                        fs.writeFile('./db/stats.json', JSON.stringify(stats));
+                    });
+                    break;
+            }
+        });
+    }
+    next();
 });
 
 app.get('/cart', (req, res) => {
@@ -83,17 +114,18 @@ app.delete('/cart/:id', (req, res) => {
 
         let cart = JSON.parse(data);
 
+        const item = cart.find((item) => +item.id === +req.params.id);
         cart = cart.filter((item) => +item.id !== +req.params.id);
         
         fs.writeFile('./db/cart.json', JSON.stringify(cart), () => {
-            res.send({
-                item: cart.find((item) => +item.id === +req.params.id),
-                total: cart.reduce((acc, item) => acc + item.quantity * item.price, 0),
+            res.send({ 
+                item,
+                total: cart.reduce((acc, item) => acc + item.quantity * item.price, 0)
             });
         });
     });
 });
-
+/*
 app.post('/auth', (req, res) => {
     fs.readFile('./db/auth.json', 'utf-8', (err, data) => {
         if(err) {
@@ -117,7 +149,7 @@ app.post('/auth', (req, res) => {
         });    
     });
 });
-
+*/
 app.listen(3000, () => {
     console.log('Server has been started');
 })
